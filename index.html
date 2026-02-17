@@ -149,7 +149,60 @@ function buscar(){
     </div>
   `;
 }
+<script>
+async function buscar() {
+  const termo = document.getElementById("searchInput").value;
+  const results = document.getElementById("results");
+
+  if (!termo) {
+    alert("Digite um produto");
+    return;
+  }
+
+  // Limpa antes
+  results.innerHTML = `<p>Buscando...</p>`;
+
+  try {
+    const response = await fetch(
+      `https://api.mercadolibre.com/sites/MLB/search?q=${encodeURIComponent(termo)}`
+    );
+    const data = await response.json();
+
+    // Exibir resultados
+    results.innerHTML = "";
+
+    const items = data.results.slice(0, 10); // pega só os 10 primeiros
+
+    if (items.length === 0) {
+      results.innerHTML = `<p>Nenhum produto encontrado 😕</p>`;
+      return;
+    }
+
+    items.forEach(item => {
+      const price = item.price ? item.price.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+      }) : "Sem preço";
+
+      results.innerHTML += `
+        <div class="card">
+          <img src="${item.thumbnail}" alt="${item.title}" style="width:60px; height:60px; object-fit:cover; border-radius:8px; float:left; margin-right:10px;">
+          <h3>${item.title}</h3>
+          <div class="price">${price}</div>
+          <a href="${item.permalink}" target="_blank">
+            <button style="margin-top:8px; width:100%; padding:8px; background:#2563eb; color:white; border:none; border-radius:8px;">Ver Oferta</button>
+          </a>
+        </div>
+      `;
+    });
+
+  } catch (err) {
+    console.error(err);
+    results.innerHTML = `<p>Erro ao buscar 😕</p>`;
+  }
+}
 </script>
+
 
 </body>
 </html>
