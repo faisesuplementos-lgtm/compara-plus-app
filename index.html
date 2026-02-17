@@ -1,60 +1,20 @@
-<script>
-async function buscar(termoManual) {
-  var input = document.getElementById("searchInput");
-  var results = document.getElementById("results");
-  var termo = termoManual ? termoManual : input.value;
 
-  if (!termo) {
-    alert("Digite um produto");
-    return;
-  }
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
 
-  results.innerHTML = "<div class='card'>Buscando...</div>";
-
-  fetch("https://api.mercadolibre.com/sites/MLB/search?q=" + encodeURIComponent(termo))
-    .then(function(response) {
-      return response.json();
-    })
-    .then(function(data) {
-
-      results.innerHTML = "";
-
-      if (!data.results || data.results.length === 0) {
-        results.innerHTML = "<div class='card'>Nenhum produto encontrado</div>";
-        return;
-      }
-
-      var items = data.results.slice(0, 8);
-
-      items.forEach(function(item) {
-
-        var price = new Intl.NumberFormat("pt-BR", {
-          style: "currency",
-          currency: "BRL"
-        }).format(item.price);
-
-        results.innerHTML +=
-          "<div class='card'>" +
-          "<img src='" + item.thumbnail + "'>" +
-          "<h3>" + item.title + "</h3>" +
-          "<div class='price'>" + price + "</div>" +
-          "<a href='" + item.permalink + "' target='_blank'>" +
-          "<button>Ver no Mercado Livre</button>" +
-          "</a>" +
-          "</div>";
-      });
-
-    })
-    .catch(function(error) {
-      console.error(error);
-      results.innerHTML = "<div class='card'>Erro ao buscar produtos</div>";
-    });
+const rootElement = document.getElementById('root');
+if (!rootElement) {
+  throw new Error("Could not find root element to mount to");
 }
 
-window.onload = function() {
-  buscar("iphone");
-};
-</script>
+const root = ReactDOM.createRoot(rootElement);
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
 
 
 
