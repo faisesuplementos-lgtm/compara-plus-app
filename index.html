@@ -1,161 +1,211 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Compara+</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: linear-gradient(135deg, #2563eb, #1e40af);
-  display: flex;
-  justify-content: center;
-  padding: 20px;
+  background:#e5e7eb;
+  display:flex;
+  justify-content:center;
+  padding:30px 0;
 }
 
 .app {
-  background: #ffffff;
-  width: 100%;
-  max-width: 420px;
-  border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-  animation: fadeIn 0.4s ease-in-out;
+  width:390px;
+  height:780px;
+  background:#f9fafb;
+  border-radius:35px;
+  overflow:hidden;
+  box-shadow:0 30px 60px rgba(0,0,0,0.25);
+  position:relative;
+  display:flex;
+  flex-direction:column;
 }
 
-@keyframes fadeIn {
-  from {opacity: 0; transform: translateY(10px);}
-  to {opacity: 1; transform: translateY(0);}
+.header {
+  background:#2563eb;
+  color:white;
+  padding:20px;
 }
 
-h1 {
-  text-align: center;
-  margin: 0 0 20px;
-  color: #1e40af;
+.header h1 {
+  font-size:22px;
 }
 
-input {
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  border: 1px solid #ddd;
-  font-size: 16px;
-  outline: none;
+.search-box {
+  margin-top:15px;
 }
 
-button.search {
-  margin-top: 12px;
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  border: none;
-  background: #2563eb;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.2s;
+.search-box input {
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:none;
+  font-size:14px;
 }
 
-button.search:hover {
-  background: #1e40af;
+.content {
+  flex:1;
+  overflow:auto;
+  padding:15px;
 }
 
-.result-card {
-  margin-top: 15px;
-  padding: 15px;
-  border-radius: 15px;
-  background: #f9fafb;
-  border: 2px solid transparent;
-  transition: 0.3s;
+.card {
+  background:white;
+  padding:15px;
+  border-radius:15px;
+  margin-bottom:12px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.05);
 }
 
-.result-card.best {
-  border: 2px solid #22c55e;
-  background: #ecfdf5;
+.card img {
+  width:60px;
+  float:left;
+  margin-right:10px;
+  border-radius:10px;
 }
 
-.store {
-  font-size: 14px;
-  color: #555;
+.card h3 {
+  font-size:15px;
+}
+
+.card p {
+  font-size:14px;
+  color:#555;
 }
 
 .price {
-  font-size: 20px;
-  font-weight: bold;
-  margin: 5px 0;
+  font-weight:bold;
+  color:#16a34a;
+  margin-top:5px;
 }
 
-.best-label {
-  font-size: 12px;
-  color: #16a34a;
-  font-weight: bold;
+.bottom-nav {
+  height:65px;
+  background:white;
+  border-top:1px solid #ddd;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
 }
 
-button.offer {
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  background: #111827;
-  color: white;
-  cursor: pointer;
+.nav-item {
+  text-align:center;
+  font-size:12px;
+  cursor:pointer;
+  color:#555;
 }
 
+.nav-item.active {
+  color:#2563eb;
+  font-weight:bold;
+}
+
+.result-item {
+  background:white;
+  padding:15px;
+  border-radius:15px;
+  margin-bottom:12px;
+}
+
+.result-item button {
+  margin-top:8px;
+  padding:8px 12px;
+  border:none;
+  border-radius:8px;
+  background:#2563eb;
+  color:white;
+  cursor:pointer;
+}
 </style>
 </head>
+
 <body>
 
 <div class="app">
-  <h1>🔎 Compara+</h1>
 
-  <input type="text" id="searchInput" placeholder="Digite o produto...">
-  <button class="search" onclick="searchProduct()">Comparar Preços</button>
+  <!-- TELA INICIAL -->
+  <div id="homeScreen">
+    <div class="header">
+      <h1>🛍️ Compara+</h1>
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Buscar produto...">
+      </div>
+    </div>
 
-  <div id="results"></div>
+    <div class="content">
+      <div class="card">
+        <img src="https://via.placeholder.com/60">
+        <h3>iPhone 13</h3>
+        <p>A partir de</p>
+        <div class="price">R$ 2.799</div>
+      </div>
+
+      <div class="card">
+        <img src="https://via.placeholder.com/60">
+        <h3>Fones Bluetooth</h3>
+        <p>A partir de</p>
+        <div class="price">R$ 129</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TELA RESULTADO -->
+  <div id="resultScreen" style="display:none;">
+    <div class="header">
+      <h1>Resultados</h1>
+    </div>
+
+    <div class="content">
+      <div class="result-item">
+        <h3>Shopee</h3>
+        <div class="price">R$ 2.799</div>
+        <button>Comprar</button>
+      </div>
+
+      <div class="result-item">
+        <h3>Mercado Livre</h3>
+        <div class="price">R$ 2.829</div>
+        <button>Comprar</button>
+      </div>
+
+      <div class="result-item">
+        <h3>Amazon</h3>
+        <div class="price">R$ 2.899</div>
+        <button>Comprar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BARRA INFERIOR -->
+  <div class="bottom-nav">
+    <div class="nav-item active" onclick="showHome()">Home</div>
+    <div class="nav-item" onclick="showResults()">Preços</div>
+    <div class="nav-item">Favoritos</div>
+    <div class="nav-item">Lojas</div>
+  </div>
+
 </div>
 
 <script>
-function searchProduct() {
-  const product = document.getElementById("searchInput").value;
-  const resultsDiv = document.getElementById("results");
+function showHome(){
+  document.getElementById("homeScreen").style.display="block";
+  document.getElementById("resultScreen").style.display="none";
+}
 
-  if (!product) {
-    alert("Digite um produto!");
-    return;
-  }
-
-  const fakeResults = [
-    { store: "Shopee", price: 89.90 },
-    { store: "Mercado Livre", price: 94.50 },
-    { store: "Amazon", price: 97.00 }
-  ];
-
-  resultsDiv.innerHTML = "";
-
-  const lowestPrice = Math.min(...fakeResults.map(item => item.price));
-
-  fakeResults.forEach(item => {
-    const isBest = item.price === lowestPrice;
-
-    resultsDiv.innerHTML += `
-      <div class="result-card ${isBest ? 'best' : ''}">
-        <div class="store">${item.store}</div>
-        <div class="price">R$ ${item.price.toFixed(2)}</div>
-        ${isBest ? '<div class="best-label">🔥 Melhor Preço</div>' : ''}
-        <button class="offer">Ver Oferta</button>
-      </div>
-    `;
-  });
+function showResults(){
+  document.getElementById("homeScreen").style.display="none";
+  document.getElementById("resultScreen").style.display="block";
 }
 </script>
 
 </body>
 </html>
+
 
