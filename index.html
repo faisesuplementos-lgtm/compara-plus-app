@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Compara+</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f5f7fb;
+    }
+
+    header {
+      background: #2563eb;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    main {
+      padding: 15px;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 10px;
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1e4fd8;
+    }
+
+    .result {
+      margin-top: 15px;
+      background: white;
+      padding: 12px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+    .price {
+      font-weight: bold;
+      color: #16a34a;
+    }
+
+    .store {
+      font-size: 14px;
+      color: #555;
+    }
+
+  </style>
+</head>
+<body>
+
+<header>🔎 Compara+</header>
+
+<main>
+  <input type="text" id="searchInput" placeholder="Digite o nome do produto...">
+  <button onclick="searchProduct()">Comparar Preços</button>
+
+  <div id="results"></div>
+</main>
+
+<script>
+  function searchProduct() {
+    const product = document.getElementById("searchInput").value;
+    const resultsDiv = document.getElementById("results");
+
+    if (!product) {
+      alert("Digite um produto!");
+      return;
+    }
+
+    // Simulação de preços (depois podemos conectar API real)
+    const fakeResults = [
+      { store: "Shopee", price: "R$ 89,90", link: "#" },
+      { store: "Mercado Livre", price: "R$ 94,50", link: "#" },
+      { store: "Amazon", price: "R$ 97,00", link: "#" }
+    ];
+
+    resultsDiv.innerHTML = "";
+
+    fakeResults.forEach(item => {
+      resultsDiv.innerHTML += `
+        <div class="result">
+          <div class="store">${item.store}</div>
+          <div class="price">${item.price}</div>
+          <button onclick="window.open('${item.link}')">Ver Oferta</button>
+        </div>
+      `;
+    });
+  }
+</script>
+
+</body>
+</html>
