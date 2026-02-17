@@ -6,122 +6,96 @@
 <title>Compara+</title>
 
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background:#e5e7eb;
-  display:flex;
-  justify-content:center;
-  padding:30px 0;
+    background: #e9ecef;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
+/* Container estilo celular */
 .app {
-  width:390px;
-  height:780px;
-  background:#f9fafb;
-  border-radius:35px;
-  overflow:hidden;
-  box-shadow:0 30px 60px rgba(0,0,0,0.25);
-  position:relative;
-  display:flex;
-  flex-direction:column;
+    width: 390px;
+    height: 800px;
+    background: #ffffff;
+    border-radius: 30px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
+/* Header */
 .header {
-  background:#2563eb;
-  color:white;
-  padding:20px;
+    background: #6c5ce7;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
 }
 
-.header h1 {
-  font-size:22px;
+/* Conteúdo */
+.content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
 }
 
+/* Barra de busca */
 .search-box {
-  margin-top:15px;
+    margin-bottom: 20px;
 }
 
 .search-box input {
-  width:100%;
-  padding:12px;
-  border-radius:12px;
-  border:none;
-  font-size:14px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 14px;
 }
 
-.content {
-  flex:1;
-  overflow:auto;
-  padding:15px;
-}
-
+/* Cards */
 .card {
-  background:white;
-  padding:15px;
-  border-radius:15px;
-  margin-bottom:12px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.05);
-}
-
-.card img {
-  width:60px;
-  float:left;
-  margin-right:10px;
-  border-radius:10px;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 16px;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
 .card h3 {
-  font-size:15px;
-}
-
-.card p {
-  font-size:14px;
-  color:#555;
+    font-size: 16px;
+    margin-bottom: 5px;
 }
 
 .price {
-  font-weight:bold;
-  color:#16a34a;
-  margin-top:5px;
+    font-weight: bold;
+    color: #6c5ce7;
 }
 
+/* Barra inferior */
 .bottom-nav {
-  height:65px;
-  background:white;
-  border-top:1px solid #ddd;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
+    height: 70px;
+    background: #ffffff;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
-.nav-item {
-  text-align:center;
-  font-size:12px;
-  cursor:pointer;
-  color:#555;
-}
-
-.nav-item.active {
-  color:#2563eb;
-  font-weight:bold;
-}
-
-.result-item {
-  background:white;
-  padding:15px;
-  border-radius:15px;
-  margin-bottom:12px;
-}
-
-.result-item button {
-  margin-top:8px;
-  padding:8px 12px;
-  border:none;
-  border-radius:8px;
-  background:#2563eb;
-  color:white;
-  cursor:pointer;
+.bottom-nav div {
+    font-size: 12px;
+    text-align: center;
+    color: #555;
 }
 </style>
 </head>
@@ -130,80 +104,41 @@ body {
 
 <div class="app">
 
-  <!-- TELA INICIAL -->
-  <div id="homeScreen">
     <div class="header">
-      <h1>🛍️ Compara+</h1>
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Buscar produto...">
-      </div>
+        Compara+
     </div>
 
     <div class="content">
-      <div class="card">
-        <img src="https://via.placeholder.com/60">
-        <h3>iPhone 13</h3>
-        <p>A partir de</p>
-        <div class="price">R$ 2.799</div>
-      </div>
 
-      <div class="card">
-        <img src="https://via.placeholder.com/60">
-        <h3>Fones Bluetooth</h3>
-        <p>A partir de</p>
-        <div class="price">R$ 129</div>
-      </div>
+        <div class="search-box">
+            <input type="text" placeholder="Buscar produto...">
+        </div>
+
+        <div class="card">
+            <h3>iPhone 13</h3>
+            <div class="price">A partir de R$ 3.999</div>
+        </div>
+
+        <div class="card">
+            <h3>Air Fryer Mondial</h3>
+            <div class="price">A partir de R$ 299</div>
+        </div>
+
+        <div class="card">
+            <h3>Smart TV 50"</h3>
+            <div class="price">A partir de R$ 2.199</div>
+        </div>
+
     </div>
-  </div>
 
-  <!-- TELA RESULTADO -->
-  <div id="resultScreen" style="display:none;">
-    <div class="header">
-      <h1>Resultados</h1>
+    <div class="bottom-nav">
+        <div>🏠<br>Início</div>
+        <div>🔥<br>Ofertas</div>
+        <div>⭐<br>Favoritos</div>
+        <div>👤<br>Perfil</div>
     </div>
-
-    <div class="content">
-      <div class="result-item">
-        <h3>Shopee</h3>
-        <div class="price">R$ 2.799</div>
-        <button>Comprar</button>
-      </div>
-
-      <div class="result-item">
-        <h3>Mercado Livre</h3>
-        <div class="price">R$ 2.829</div>
-        <button>Comprar</button>
-      </div>
-
-      <div class="result-item">
-        <h3>Amazon</h3>
-        <div class="price">R$ 2.899</div>
-        <button>Comprar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- BARRA INFERIOR -->
-  <div class="bottom-nav">
-    <div class="nav-item active" onclick="showHome()">Home</div>
-    <div class="nav-item" onclick="showResults()">Preços</div>
-    <div class="nav-item">Favoritos</div>
-    <div class="nav-item">Lojas</div>
-  </div>
 
 </div>
-
-<script>
-function showHome(){
-  document.getElementById("homeScreen").style.display="block";
-  document.getElementById("resultScreen").style.display="none";
-}
-
-function showResults(){
-  document.getElementById("homeScreen").style.display="none";
-  document.getElementById("resultScreen").style.display="block";
-}
-</script>
 
 </body>
 </html>
