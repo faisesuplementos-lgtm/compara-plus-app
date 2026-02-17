@@ -33,6 +33,7 @@ body {
   color:white;
   font-size:20px;
   font-weight:bold;
+  text-align:center;
 }
 
 .search-area {
@@ -59,6 +60,22 @@ body {
   cursor:pointer;
 }
 
+.actions {
+  display:flex;
+  gap:10px;
+  padding:10px 15px;
+}
+
+.actions button {
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:12px;
+  background:#e5e7eb;
+  cursor:pointer;
+  font-weight:bold;
+}
+
 .content {
   flex:1;
   overflow:auto;
@@ -73,14 +90,33 @@ body {
   box-shadow:0 5px 15px rgba(0,0,0,0.05);
 }
 
+.card img {
+  width:80px;
+  height:80px;
+  object-fit:cover;
+  border-radius:10px;
+  margin-bottom:8px;
+}
+
 .card h3 {
-  font-size:15px;
+  font-size:14px;
   margin-bottom:5px;
 }
 
 .price {
   font-weight:bold;
   color:#16a34a;
+  margin-bottom:8px;
+}
+
+.card button {
+  width:100%;
+  padding:8px;
+  background:#2563eb;
+  color:white;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
 }
 
 .bottom-nav {
@@ -108,12 +144,12 @@ body {
     <button onclick="buscar()">Buscar</button>
   </div>
 
-  <div class="content" id="results">
-    <div class="card">
-      <h3>Produto exemplo</h3>
-      <div class="price">A partir de R$ 199</div>
-    </div>
+  <div class="actions">
+    <button onclick="buscar('ofertas')">🔥 Ofertas</button>
+    <button onclick="buscar('desconto')">🎟 Cupons</button>
   </div>
+
+  <div class="content" id="results"></div>
 
   <div class="bottom-nav">
     <div>🏠 Início</div>
@@ -125,84 +161,62 @@ body {
 </div>
 
 <script>
-function buscar(){
-  const termo = document.getElementById("searchInput").value;
+async function buscar(termoManual = null) {
+  const input = document.getElementById("searchInput");
   const results = document.getElementById("results");
-
-  if(!termo){
-    alert("Digite um produto");
-    return;
-  }
-
-  results.innerHTML = `
-    <div class="card">
-      <h3>${termo} - Shopee</h3>
-      <div class="price">R$ 199</div>
-    </div>
-    <div class="card">
-      <h3>${termo} - Mercado Livre</h3>
-      <div class="price">R$ 209</div>
-    </div>
-    <div class="card">
-      <h3>${termo} - Amazon</h3>
-      <div class="price">R$ 219</div>
-    </div>
-  `;
-}
-<script>
-async function buscar() {
-  const termo = document.getElementById("searchInput").value;
-  const results = document.getElementById("results");
+  const termo = termoManual || input.value;
 
   if (!termo) {
     alert("Digite um produto");
     return;
   }
 
-  // Limpa antes
-  results.innerHTML = `<p>Buscando...</p>`;
+  results.innerHTML = "<div class='card'>Buscando...</div>";
 
   try {
     const response = await fetch(
       `https://api.mercadolibre.com/sites/MLB/search?q=${encodeURIComponent(termo)}`
     );
-    const data = await response.json();
 
-    // Exibir resultados
+    const data = await response.json();
+    const items = data.results.slice(0, 8);
+
     results.innerHTML = "";
 
-    const items = data.results.slice(0, 10); // pega só os 10 primeiros
-
     if (items.length === 0) {
-      results.innerHTML = `<p>Nenhum produto encontrado 😕</p>`;
+      results.innerHTML = "<div class='card'>Nenhum produto encontrado</div>";
       return;
     }
 
     items.forEach(item => {
-      const price = item.price ? item.price.toLocaleString("pt-BR", {
+      const price = item.price.toLocaleString("pt-BR", {
         style: "currency",
         currency: "BRL"
-      }) : "Sem preço";
+      });
 
       results.innerHTML += `
         <div class="card">
-          <img src="${item.thumbnail}" alt="${item.title}" style="width:60px; height:60px; object-fit:cover; border-radius:8px; float:left; margin-right:10px;">
+          <img src="${item.thumbnail}">
           <h3>${item.title}</h3>
           <div class="price">${price}</div>
           <a href="${item.permalink}" target="_blank">
-            <button style="margin-top:8px; width:100%; padding:8px; background:#2563eb; color:white; border:none; border-radius:8px;">Ver Oferta</button>
+            <button>Ver no Mercado Livre</button>
           </a>
         </div>
       `;
     });
 
-  } catch (err) {
-    console.error(err);
-    results.innerHTML = `<p>Erro ao buscar 😕</p>`;
+  } catch (error) {
+    console.error(error);
+    results.innerHTML = "<div class='card'>Erro ao buscar produtos</div>";
   }
 }
-</script>
 
+// Produtos populares ao abrir
+window.onload = function() {
+  buscar("mais vendidos");
+};
+</script>
 
 </body>
 </html>
