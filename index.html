@@ -1,117 +1,161 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Compara+</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Compara+</title>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #f5f7fb;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    header {
-      background: #2563eb;
-      color: white;
-      padding: 15px;
-      text-align: center;
-      font-size: 22px;
-      font-weight: bold;
-    }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
 
-    main {
-      padding: 15px;
-      max-width: 500px;
-      margin: auto;
-    }
+.app {
+  background: #ffffff;
+  width: 100%;
+  max-width: 420px;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  animation: fadeIn 0.4s ease-in-out;
+}
 
-    input {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
 
-    button {
-      margin-top: 10px;
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      background: #2563eb;
-      color: white;
-      cursor: pointer;
-    }
+h1 {
+  text-align: center;
+  margin: 0 0 20px;
+  color: #1e40af;
+}
 
-    button:hover {
-      background: #1e4fd8;
-    }
+input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  outline: none;
+}
 
-    .result {
-      margin-top: 15px;
-      background: white;
-      padding: 12px;
-      border-radius: 10px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.1);
-    }
+button.search {
+  margin-top: 12px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
 
-    .price {
-      font-weight: bold;
-      color: #16a34a;
-    }
+button.search:hover {
+  background: #1e40af;
+}
 
-    .store {
-      font-size: 14px;
-      color: #555;
-    }
+.result-card {
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 15px;
+  background: #f9fafb;
+  border: 2px solid transparent;
+  transition: 0.3s;
+}
 
-  </style>
+.result-card.best {
+  border: 2px solid #22c55e;
+  background: #ecfdf5;
+}
+
+.store {
+  font-size: 14px;
+  color: #555;
+}
+
+.price {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.best-label {
+  font-size: 12px;
+  color: #16a34a;
+  font-weight: bold;
+}
+
+button.offer {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #111827;
+  color: white;
+  cursor: pointer;
+}
+
+</style>
 </head>
 <body>
 
-<header>🔎 Compara+</header>
+<div class="app">
+  <h1>🔎 Compara+</h1>
 
-<main>
-  <input type="text" id="searchInput" placeholder="Digite o nome do produto...">
-  <button onclick="searchProduct()">Comparar Preços</button>
+  <input type="text" id="searchInput" placeholder="Digite o produto...">
+  <button class="search" onclick="searchProduct()">Comparar Preços</button>
 
   <div id="results"></div>
-</main>
+</div>
 
 <script>
-  function searchProduct() {
-    const product = document.getElementById("searchInput").value;
-    const resultsDiv = document.getElementById("results");
+function searchProduct() {
+  const product = document.getElementById("searchInput").value;
+  const resultsDiv = document.getElementById("results");
 
-    if (!product) {
-      alert("Digite um produto!");
-      return;
-    }
-
-    // Simulação de preços (depois podemos conectar API real)
-    const fakeResults = [
-      { store: "Shopee", price: "R$ 89,90", link: "#" },
-      { store: "Mercado Livre", price: "R$ 94,50", link: "#" },
-      { store: "Amazon", price: "R$ 97,00", link: "#" }
-    ];
-
-    resultsDiv.innerHTML = "";
-
-    fakeResults.forEach(item => {
-      resultsDiv.innerHTML += `
-        <div class="result">
-          <div class="store">${item.store}</div>
-          <div class="price">${item.price}</div>
-          <button onclick="window.open('${item.link}')">Ver Oferta</button>
-        </div>
-      `;
-    });
+  if (!product) {
+    alert("Digite um produto!");
+    return;
   }
+
+  const fakeResults = [
+    { store: "Shopee", price: 89.90 },
+    { store: "Mercado Livre", price: 94.50 },
+    { store: "Amazon", price: 97.00 }
+  ];
+
+  resultsDiv.innerHTML = "";
+
+  const lowestPrice = Math.min(...fakeResults.map(item => item.price));
+
+  fakeResults.forEach(item => {
+    const isBest = item.price === lowestPrice;
+
+    resultsDiv.innerHTML += `
+      <div class="result-card ${isBest ? 'best' : ''}">
+        <div class="store">${item.store}</div>
+        <div class="price">R$ ${item.price.toFixed(2)}</div>
+        ${isBest ? '<div class="best-label">🔥 Melhor Preço</div>' : ''}
+        <button class="offer">Ver Oferta</button>
+      </div>
+    `;
+  });
+}
 </script>
 
 </body>
 </html>
+
