@@ -13,7 +13,7 @@ async function buscar(termoManual = null) {
 
   try {
     const response = await fetch(
-      `/api/search?q=${encodeURIComponent(termo)}`
+      `https://api.mercadolibre.com/sites/MLB/search?q=${encodeURIComponent(termo)}`
     );
 
     const data = await response.json();
@@ -54,6 +54,7 @@ window.onload = function() {
   buscar("mais vendidos");
 };
 </script>
+
 
 
 
