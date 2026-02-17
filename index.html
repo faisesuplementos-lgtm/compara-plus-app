@@ -1,19 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compara+</title>
 
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:Arial, sans-serif; }
 
-const rootElement = document.getElementById('root');
-if (!rootElement) {
-  throw new Error("Could not find root element to mount to");
+body {
+  background:#f1f3f6;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
 
-const root = ReactDOM.createRoot(rootElement);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+.app {
+  width:390px;
+  height:780px;
+  background:white;
+  border-radius:30px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.2);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+.header {
+  background:#2563eb;
+  padding:20px;
+  color:white;
+  font-size:20px;
+  font-weight:bold;
+  text-align:center;
+}
+
+.search-area {
+  padding:15px;
+  background:#2563eb;
+}
+
+.search-area input {
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  border:none;
+  margin-bottom:10px;
+}
+
+.search-area button {
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  background:#111827;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.actions {
+  display:flex;
+  gap:10px;
+  padding:10px 15px;
+}
+
+.actions button {
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:12px;
+  background:#e5e7eb;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.content {
+  flex:1;
+  overflow:auto;
+  padding:15px;
+}
+
+.card {
+  background:#f9fafb;
+  padding:15px;
+  border-radius:15px;
+  margin-bottom:12px;
+  box-shadow:0 5px 15px rgba(0,0,0,0.05);
+}
+
+.card h3 {
+  font-size:14px;
+  margin-bottom:5px;
+}
+
+.price {
+  font-weight:bold;
+  color:#16a34a;
+  margin-bottom:8px;
+}
+
+.card button {
+  width:100%;
+  padding:8px;
+  background:#2563eb;
+  color:white;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.bottom-nav {
+  height:60px;
+  background:white;
+  border-top:1px solid #ddd;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  font-size:12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <div class="header">
+    🔎 Compara+
+  </div>
+
+  <div class="search-area">
+    <input type="text" id="searchInput" placeholder="Digite o produto...">
+    <button onclick="buscar()">Buscar</button>
+  </div>
+
+  <div class="actions">
+    <button onclick="buscar('ofertas')">🔥 Ofertas</button>
+    <button onclick="buscar('cupons')">🎟 Cupons</button>
+  </div>
+
+  <div class="content" id="results">
+    <div class="card">
+      <h3>Produto exemplo - Mercado Livre</h3>
+      <div class="price">R$ 199,90</div>
+      <button>Ver Oferta</button>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <div>🏠 Início</div>
+    <div>🔥 Ofertas</div>
+    <div>⭐ Favoritos</div>
+    <div>👤 Perfil</div>
+  </div>
+
+</div>
+
+<script>
+function buscar(termoManual) {
+  var input = document.getElementById("searchInput");
+  var results = document.getElementById("results");
+  var termo = termoManual ? termoManual : input.value;
+
+  if (!termo) {
+    alert("Digite um produto");
+    return;
+  }
+
+  results.innerHTML =
+    "<div class='card'>" +
+    "<h3>" + termo + " - Shopee</h3>" +
+    "<div class='price'>R$ 189,90</div>" +
+    "<button>Ver Oferta</button>" +
+    "</div>" +
+
+    "<div class='card'>" +
+    "<h3>" + termo + " - Mercado Livre</h3>" +
+    "<div class='price'>R$ 199,90</div>" +
+    "<button>Ver Oferta</button>" +
+    "</div>" +
+
+    "<div class='card'>" +
+    "<h3>" + termo + " - Amazon</h3>" +
+    "<div class='price'>R$ 209,90</div>" +
+    "<button>Ver Oferta</button>" +
+    "</div>";
+}
+</script>
+
+</body>
+</html>
+
 
 
 
