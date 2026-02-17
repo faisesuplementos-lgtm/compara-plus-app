@@ -1,8 +1,8 @@
 <script>
-async function buscar(termoManual = null) {
-  const input = document.getElementById("searchInput");
-  const results = document.getElementById("results");
-  const termo = termoManual || input.value;
+async function buscar(termoManual) {
+  var input = document.getElementById("searchInput");
+  var results = document.getElementById("results");
+  var termo = termoManual ? termoManual : input.value;
 
   if (!termo) {
     alert("Digite um produto");
@@ -11,49 +11,51 @@ async function buscar(termoManual = null) {
 
   results.innerHTML = "<div class='card'>Buscando...</div>";
 
-  try {
-    const response = await fetch(
-      `https://api.mercadolibre.com/sites/MLB/search?q=${encodeURIComponent(termo)}`
-    );
+  fetch("https://api.mercadolibre.com/sites/MLB/search?q=" + encodeURIComponent(termo))
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(data) {
 
-    const data = await response.json();
-    const items = data.results.slice(0, 8);
+      results.innerHTML = "";
 
-    results.innerHTML = "";
+      if (!data.results || data.results.length === 0) {
+        results.innerHTML = "<div class='card'>Nenhum produto encontrado</div>";
+        return;
+      }
 
-    if (!items || items.length === 0) {
-      results.innerHTML = "<div class='card'>Nenhum produto encontrado</div>";
-      return;
-    }
+      var items = data.results.slice(0, 8);
 
-    items.forEach(item => {
-      const price = item.price.toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL"
+      items.forEach(function(item) {
+
+        var price = new Intl.NumberFormat("pt-BR", {
+          style: "currency",
+          currency: "BRL"
+        }).format(item.price);
+
+        results.innerHTML +=
+          "<div class='card'>" +
+          "<img src='" + item.thumbnail + "'>" +
+          "<h3>" + item.title + "</h3>" +
+          "<div class='price'>" + price + "</div>" +
+          "<a href='" + item.permalink + "' target='_blank'>" +
+          "<button>Ver no Mercado Livre</button>" +
+          "</a>" +
+          "</div>";
       });
 
-      results.innerHTML += `
-        <div class="card">
-          <img src="${item.thumbnail}">
-          <h3>${item.title}</h3>
-          <div class="price">${price}</div>
-          <a href="${item.permalink}" target="_blank">
-            <button>Ver no Mercado Livre</button>
-          </a>
-        </div>
-      `;
+    })
+    .catch(function(error) {
+      console.error(error);
+      results.innerHTML = "<div class='card'>Erro ao buscar produtos</div>";
     });
-
-  } catch (error) {
-    console.error(error);
-    results.innerHTML = "<div class='card'>Erro ao buscar produtos</div>";
-  }
 }
 
 window.onload = function() {
-  buscar("mais vendidos");
+  buscar("iphone");
 };
 </script>
+
 
 
 
