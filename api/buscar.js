@@ -2,7 +2,7 @@ export default async function handler(req, res) {
   const { q } = req.query;
 
   if (!q) {
-    return res.status(400).json({ error: "Falta parâmetro de busca" });
+    return res.status(400).json({ error: "Digite algo para buscar" });
   }
 
   try {
@@ -20,7 +20,8 @@ export default async function handler(req, res) {
     }));
 
     res.status(200).json(produtos);
+
   } catch (error) {
-    res.status(500).json({ error: "Erro ao buscar produtos" });
+    res.status(500).json({ error: "Erro ao buscar no Mercado Livre" });
   }
 }
