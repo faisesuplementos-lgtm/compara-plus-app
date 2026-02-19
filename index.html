@@ -1,198 +1,235 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Compara+</title>
 
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:Arial, sans-serif; }
-
-body {
-  background:#f1f3f6;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
+body{
+  font-family: Arial, sans-serif;
+  background:#f5f5f5;
+  margin:0;
 }
-
-.app {
-  width:390px;
-  height:780px;
-  background:white;
-  border-radius:30px;
-  box-shadow:0 20px 50px rgba(0,0,0,0.2);
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-}
-
-.header {
-  background:#2563eb;
+header{
+  background:#2563EB;
+  color:#fff;
   padding:20px;
-  color:white;
-  font-size:20px;
-  font-weight:bold;
   text-align:center;
 }
-
-.search-area {
+.container{
   padding:15px;
-  background:#2563eb;
 }
-
-.search-area input {
-  width:100%;
-  padding:12px;
-  border-radius:12px;
-  border:none;
-  margin-bottom:10px;
-}
-
-.search-area button {
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:12px;
-  background:#111827;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.actions {
+.search-box{
   display:flex;
   gap:10px;
-  padding:10px 15px;
 }
-
-.actions button {
+input{
   flex:1;
   padding:10px;
+  border-radius:8px;
+  border:1px solid #ddd;
+}
+button{
+  padding:10px 15px;
   border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+}
+.search-btn{
+  background:#2563EB;
+  color:#fff;
+}
+.card{
+  background:#fff;
+  padding:12px;
   border-radius:12px;
-  background:#e5e7eb;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-.content {
-  flex:1;
-  overflow:auto;
-  padding:15px;
-}
-
-.card {
-  background:#f9fafb;
-  padding:15px;
-  border-radius:15px;
-  margin-bottom:12px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.05);
-}
-
-.card h3 {
-  font-size:14px;
-  margin-bottom:5px;
-}
-
-.price {
-  font-weight:bold;
-  color:#16a34a;
-  margin-bottom:8px;
-}
-
-.card button {
-  width:100%;
-  padding:8px;
-  background:#2563eb;
-  color:white;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
-}
-
-.bottom-nav {
-  height:60px;
-  background:white;
-  border-top:1px solid #ddd;
+  margin-top:12px;
   display:flex;
-  justify-content:space-around;
-  align-items:center;
+  gap:10px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+.card img{
+  width:90px;
+  height:90px;
+  object-fit:contain;
+}
+.price{
+  font-size:18px;
+  font-weight:bold;
+}
+.cheapest{
+  color:green;
+}
+.badge{
+  background:green;
+  color:#fff;
+  font-size:10px;
+  padding:4px;
+  border-radius:6px;
+  display:inline-block;
+}
+.store-buttons{
+  margin-top:6px;
+  display:flex;
+  gap:5px;
+  flex-wrap:wrap;
+}
+.small-btn{
+  background:#eee;
   font-size:12px;
+}
+.ml-btn{
+  background:#00a650;
+  color:#fff;
+  width:100%;
+  margin-top:6px;
+}
+.fav{
+  color:red;
+  cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<header>
+  <h2>Compara+</h2>
+</header>
 
-  <div class="header">
-    🔎 Compara+
+<div class="container">
+
+  <div class="search-box">
+    <input id="searchInput" placeholder="Buscar produto..." />
+    <button class="search-btn" onclick="buscar()">Buscar</button>
   </div>
 
-  <div class="search-area">
-    <input type="text" id="searchInput" placeholder="Digite o produto...">
-    <button onclick="buscar()">Buscar</button>
-  </div>
+  <h3>Favoritos</h3>
+  <div id="favoritos"></div>
 
-  <div class="actions">
-    <button onclick="buscar('ofertas')">🔥 Ofertas</button>
-    <button onclick="buscar('cupons')">🎟 Cupons</button>
-  </div>
-
-  <div class="content" id="results">
-    <div class="card">
-      <h3>Produto exemplo - Mercado Livre</h3>
-      <div class="price">R$ 199,90</div>
-      <button>Ver Oferta</button>
-    </div>
-  </div>
-
-  <div class="bottom-nav">
-    <div>🏠 Início</div>
-    <div>🔥 Ofertas</div>
-    <div>⭐ Favoritos</div>
-    <div>👤 Perfil</div>
-  </div>
+  <h3>Resultados</h3>
+  <div id="resultados"></div>
 
 </div>
 
 <script>
-function buscar(termoManual) {
-  var input = document.getElementById("searchInput");
-  var results = document.getElementById("results");
-  var termo = termoManual ? termoManual : input.value;
 
-  if (!termo) {
-    alert("Digite um produto");
-    return;
+/* ===== COLOQUE SEUS IDS ===== */
+const ML_ID = "SEU_ID_ML";
+const SHOPEE_ID = "SEU_ID_SHOPEE";
+const MAGALU_ID = "SEU_ID_MAGALU";
+const SHEIN_ID = "SEU_ID_SHEIN";
+
+/* ===== GERADOR AFILIADO ===== */
+function gerarLink(loja, url, query){
+  switch(loja){
+    case "ML":
+      return url + "?matt_tool=" + ML_ID;
+    case "Shopee":
+      return `https://shopee.com.br/search?keyword=${query}&affiliate_id=${SHOPEE_ID}`;
+    case "Magalu":
+      return `https://www.magazineluiza.com.br/busca/${query}/?partner_id=${MAGALU_ID}`;
+    case "Shein":
+      return `https://br.shein.com/search?keyword=${query}&affiliate=${SHEIN_ID}`;
   }
-
-  results.innerHTML =
-    "<div class='card'>" +
-    "<h3>" + termo + " - Shopee</h3>" +
-    "<div class='price'>R$ 189,90</div>" +
-    "<button>Ver Oferta</button>" +
-    "</div>" +
-
-    "<div class='card'>" +
-    "<h3>" + termo + " - Mercado Livre</h3>" +
-    "<div class='price'>R$ 199,90</div>" +
-    "<button>Ver Oferta</button>" +
-    "</div>" +
-
-    "<div class='card'>" +
-    "<h3>" + termo + " - Amazon</h3>" +
-    "<div class='price'>R$ 209,90</div>" +
-    "<button>Ver Oferta</button>" +
-    "</div>";
 }
+
+/* ===== FAVORITOS ===== */
+function salvarFavorito(produto){
+  let fav = JSON.parse(localStorage.getItem("fav")) || [];
+  fav.push(produto);
+  localStorage.setItem("fav", JSON.stringify(fav));
+  carregarFavoritos();
+}
+
+function carregarFavoritos(){
+  let fav = JSON.parse(localStorage.getItem("fav")) || [];
+  const div = document.getElementById("favoritos");
+  div.innerHTML = "";
+  fav.forEach(p=>{
+    div.innerHTML += `<div>${p.title} - R$ ${p.price}</div>`;
+  });
+}
+
+carregarFavoritos();
+
+/* ===== BUSCA MERCADO LIVRE ===== */
+async function buscar(){
+  const query = document.getElementById("searchInput").value;
+  if(!query) return;
+
+  const res = await fetch(
+    `https://api.mercadolibre.com/sites/MLB/search?q=${query}&limit=15`
+  );
+  const data = await res.json();
+
+  const produtos = data.results
+    .map(item => ({
+      id:item.id,
+      title:item.title,
+      price:item.price,
+      thumbnail:item.thumbnail,
+      url:item.permalink
+    }))
+    .sort((a,b)=>a.price - b.price);
+
+  mostrar(produtos, query);
+}
+
+/* ===== MOSTRAR RESULTADOS ===== */
+function mostrar(produtos, query){
+  const div = document.getElementById("resultados");
+  div.innerHTML = "";
+
+  produtos.forEach((p,index)=>{
+    div.innerHTML += `
+    <div class="card">
+      <img src="${p.thumbnail}" />
+      <div>
+        <div>${p.title}</div>
+        <div class="price ${index==0 ? 'cheapest':''}">
+          R$ ${p.price.toFixed(2)}
+        </div>
+        ${index==0 ? '<div class="badge">MENOR PREÇO</div>' : ''}
+
+        <button class="ml-btn"
+          onclick="window.open('${gerarLink("ML", p.url, query)}','_blank')">
+          Comprar Mercado Livre
+        </button>
+
+        <div class="store-buttons">
+          <button class="small-btn"
+            onclick="window.open('${gerarLink("Shopee","",query)}','_blank')">
+            Shopee
+          </button>
+
+          <button class="small-btn"
+            onclick="window.open('${gerarLink("Magalu","",query)}','_blank')">
+            Magalu
+          </button>
+
+          <button class="small-btn"
+            onclick="window.open('${gerarLink("Shein","",query)}','_blank')">
+            Shein
+          </button>
+
+          <span class="fav"
+            onclick='salvarFavorito(${JSON.stringify(p)})'>
+            ❤️
+          </span>
+        </div>
+      </div>
+    </div>
+    `;
+  });
+}
+
 </script>
 
 </body>
 </html>
-
 
 
 
