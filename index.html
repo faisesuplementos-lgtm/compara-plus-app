@@ -4,174 +4,743 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Compara+ | Comparador de Preços</title>
-
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#0a0a1a;color:#fff;min-height:100vh;}
 
-body{
-background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-padding:20px;
-color:white;
+/* HEADER */
+header{
+background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);
+padding:15px 20px;position:sticky;top:0;z-index:100;
+border-bottom:1px solid rgba(255,255,255,0.05);
+box-shadow:0 4px 30px rgba(0,0,0,0.5);
+}
+.header-inner{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.logo{font-size:1.8rem;font-weight:900;display:flex;align-items:center;gap:8px;}
+.logo span{background:linear-gradient(135deg,#00d2ff,#7b2ff7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.search-bar{flex:1;max-width:550px;display:flex;gap:8px;min-width:250px;}
+.search-bar input{
+flex:1;padding:12px 18px;border-radius:50px;border:2px solid #2a2a4a;
+background:#12122a;color:#fff;font-size:1rem;outline:none;transition:0.3s;
+}
+.search-bar input:focus{border-color:#7b2ff7;box-shadow:0 0 15px rgba(123,47,247,0.3);}
+.search-bar input::placeholder{color:#666;}
+.btn-search{
+padding:12px 25px;border-radius:50px;border:none;
+background:linear-gradient(135deg,#7b2ff7,#00d2ff);
+color:#fff;font-weight:700;cursor:pointer;font-size:1rem;
+transition:0.3s;white-space:nowrap;
+}
+.btn-search:hover{transform:scale(1.05);box-shadow:0 5px 20px rgba(123,47,247,0.4);}
+
+/* NAV */
+nav{background:#12122a;border-bottom:1px solid #1a1a3e;overflow-x:auto;white-space:nowrap;scrollbar-width:none;}
+nav::-webkit-scrollbar{display:none;}
+.nav-inner{max-width:1200px;margin:auto;display:flex;gap:5px;padding:10px 20px;}
+.nav-tab{
+padding:10px 22px;border-radius:50px;border:none;
+background:transparent;color:#888;cursor:pointer;
+font-size:0.9rem;font-weight:600;transition:0.3s;white-space:nowrap;
+}
+.nav-tab:hover{color:#fff;background:#1a1a3e;}
+.nav-tab.active{background:linear-gradient(135deg,#7b2ff7,#00d2ff);color:#fff;}
+
+/* MAIN */
+main{max-width:1200px;margin:auto;padding:25px 20px;}
+
+/* HERO */
+.hero{
+background:linear-gradient(135deg,#1a0533 0%,#0f3460 50%,#1a1a2e 100%);
+border-radius:20px;padding:40px 35px;margin-bottom:30px;
+position:relative;overflow:hidden;border:1px solid rgba(123,47,247,0.2);
+}
+.hero::before{
+content:'';position:absolute;top:-50%;right:-20%;width:400px;height:400px;
+background:radial-gradient(circle,rgba(123,47,247,0.15) 0%,transparent 70%);border-radius:50%;
+}
+.hero h2{font-size:2rem;margin-bottom:10px;position:relative;}
+.hero h2 span{background:linear-gradient(135deg,#00d2ff,#7b2ff7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero p{opacity:0.7;font-size:1.1rem;position:relative;}
+.hero-stats{display:flex;gap:30px;margin-top:20px;position:relative;}
+.hero-stat{text-align:center;}
+.hero-stat .num{font-size:1.5rem;font-weight:800;color:#00d2ff;}
+.hero-stat .lbl{font-size:0.8rem;opacity:0.6;}
+
+/* PLATAFORMAS */
+.platforms-row{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;position:relative;}
+.plat-badge{padding:8px 16px;border-radius:50px;font-size:0.8rem;font-weight:700;display:flex;align-items:center;gap:6px;}
+.plat-ml{background:#FFE600;color:#000;}
+.plat-shopee{background:#EE4D2D;color:#fff;}
+.plat-magalu{background:#0086FF;color:#fff;}
+.plat-amazon{background:#FF9900;color:#000;}
+.plat-americanas{background:#E60014;color:#fff;}
+
+/* CUPONS */
+.cupons-section{margin-bottom:35px;}
+.cupons-grid{display:flex;gap:15px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none;}
+.cupons-grid::-webkit-scrollbar{display:none;}
+.cupon{
+min-width:220px;padding:20px;border-radius:15px;position:relative;overflow:hidden;
+cursor:pointer;transition:0.3s;border:1px solid rgba(255,255,255,0.05);flex-shrink:0;
+}
+.cupon:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,0.3);}
+.cupon.c1{background:linear-gradient(135deg,#7b2ff7,#4a0e8f);}
+.cupon.c2{background:linear-gradient(135deg,#ff6b35,#c62828);}
+.cupon.c3{background:linear-gradient(135deg,#00bfa5,#004d40);}
+.cupon.c4{background:linear-gradient(135deg,#ffd600,#ff8f00);color:#333;}
+.cupon.c5{background:linear-gradient(135deg,#e91e63,#880e4f);}
+.cupon .discount{font-size:1.8rem;font-weight:900;}
+.cupon .desc{font-size:0.85rem;opacity:0.9;margin-top:5px;}
+.cupon .code{
+display:inline-block;margin-top:10px;padding:5px 12px;border-radius:5px;
+background:rgba(255,255,255,0.2);font-size:0.8rem;font-weight:700;letter-spacing:1px;
 }
 
-.container{
-max-width:900px;
-width:100%;
-text-align:center;
+/* SECTION HEADER */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.section-header h2{font-size:1.4rem;display:flex;align-items:center;gap:10px;}
+.section-header .badge{
+font-size:0.7rem;padding:4px 10px;border-radius:50px;
+background:linear-gradient(135deg,#7b2ff7,#00d2ff);font-weight:700;
 }
 
-h1{
-font-size:3rem;
-margin-bottom:10px;
+/* PRODUCT GRID */
+.products-grid{
+display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+gap:18px;margin-bottom:35px;
 }
-
-p{
-opacity:0.9;
-margin-bottom:40px;
+.product-card{
+background:#16162e;border-radius:16px;overflow:hidden;
+transition:0.3s;border:1px solid #1e1e3e;
+position:relative;display:flex;flex-direction:column;
 }
-
-.search-box{
-background:white;
-padding:30px;
-border-radius:15px;
-box-shadow:0 10px 30px rgba(0,0,0,0.4);
-color:black;
+.product-card:hover{transform:translateY(-5px);border-color:#7b2ff7;box-shadow:0 15px 40px rgba(123,47,247,0.15);}
+.product-card .tag{
+position:absolute;top:12px;left:12px;padding:4px 10px;
+border-radius:5px;font-size:0.7rem;font-weight:700;z-index:2;
 }
-
-input{
-width:100%;
-padding:15px;
-font-size:1.1rem;
-border-radius:10px;
-border:2px solid #ddd;
-margin-bottom:20px;
+.tag-hot{background:#ff4444;color:#fff;}
+.tag-off{background:#00d2ff;color:#000;}
+.tag-best{background:#00e676;color:#000;}
+.product-card .platform-badge{
+position:absolute;top:12px;right:12px;padding:4px 10px;
+border-radius:5px;font-size:0.65rem;font-weight:700;z-index:2;
 }
-
-button{
-width:100%;
-padding:15px;
-font-size:1.1rem;
-border:none;
-border-radius:10px;
-cursor:pointer;
-background:#0f62fe;
-color:white;
-font-weight:bold;
-transition:0.3s;
+.badge-ml{background:#FFE600;color:#000;}
+.badge-shopee{background:#EE4D2D;color:#fff;}
+.badge-magalu{background:#0086FF;color:#fff;}
+.badge-amazon{background:#FF9900;color:#000;}
+.badge-americanas{background:#E60014;color:#fff;}
+.product-img{
+width:100%;height:200px;background:#1a1a35;
+display:flex;align-items:center;justify-content:center;
+padding:15px;position:relative;
 }
-
-button:hover{
-opacity:0.9;
+.product-img img{max-width:100%;max-height:100%;object-fit:contain;transition:0.3s;}
+.product-card:hover .product-img img{transform:scale(1.05);}
+.product-info{padding:15px;flex:1;display:flex;flex-direction:column;}
+.product-info h3{
+font-size:0.9rem;font-weight:600;line-height:1.3;margin-bottom:10px;flex:1;
+display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
 }
-
-.results{
-margin-top:30px;
-display:none;
+.price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:5px;}
+.price-current{font-size:1.3rem;font-weight:900;color:#00d2ff;}
+.price-old{font-size:0.85rem;color:#666;text-decoration:line-through;}
+.price-installment{font-size:0.75rem;color:#888;margin-bottom:12px;}
+.btn-offer{
+width:100%;padding:11px;border:none;border-radius:10px;
+background:linear-gradient(135deg,#7b2ff7,#5a1fba);
+color:#fff;font-weight:700;cursor:pointer;font-size:0.9rem;
+transition:0.3s;text-decoration:none;display:block;text-align:center;
 }
+.btn-offer:hover{background:linear-gradient(135deg,#9b4dff,#7b2ff7);box-shadow:0 5px 20px rgba(123,47,247,0.3);}
 
-.platform{
-background:white;
-color:black;
-padding:20px;
-margin:15px 0;
-border-radius:12px;
-display:flex;
-justify-content:space-between;
-align-items:center;
+/* MULTI PLATFORM LINKS */
+.multi-links{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
+.ml-link{
+padding:5px 10px;border-radius:6px;font-size:0.7rem;font-weight:700;
+text-decoration:none;transition:0.3s;display:inline-block;
 }
+.ml-link:hover{opacity:0.8;transform:scale(1.05);}
+.ml-link-ml{background:#FFE600;color:#000;}
+.ml-link-shopee{background:#EE4D2D;color:#fff;}
+.ml-link-magalu{background:#0086FF;color:#fff;}
+.ml-link-amazon{background:#FF9900;color:#000;}
+.ml-link-americanas{background:#E60014;color:#fff;}
 
-.platform a{
-text-decoration:none;
-padding:10px 20px;
-border-radius:8px;
-color:white;
-font-weight:bold;
+/* CATEGORIES */
+.categories{display:flex;gap:12px;overflow-x:auto;margin-bottom:35px;padding-bottom:10px;scrollbar-width:none;}
+.categories::-webkit-scrollbar{display:none;}
+.cat-item{
+min-width:100px;text-align:center;padding:20px 15px;
+border-radius:15px;background:#16162e;border:1px solid #1e1e3e;
+cursor:pointer;transition:0.3s;flex-shrink:0;
 }
+.cat-item:hover{border-color:#7b2ff7;transform:translateY(-3px);}
+.cat-item .cat-icon{font-size:2rem;margin-bottom:8px;}
+.cat-item .cat-name{font-size:0.75rem;font-weight:600;color:#aaa;}
 
-.ml{background:#FFE600;color:black;}
-.shopee{background:#EE4D2D;}
-.magalu{background:#0086FF;}
+/* LOADING */
+.loading{text-align:center;padding:60px 20px;}
+.spinner{
+width:50px;height:50px;border:4px solid #1e1e3e;
+border-top-color:#7b2ff7;border-radius:50%;
+animation:spin 0.8s linear infinite;margin:0 auto 15px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
 
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:60px 20px;}
+.empty-state .icon{font-size:4rem;margin-bottom:15px;}
+.empty-state h3{margin-bottom:10px;color:#aaa;}
+.empty-state p{color:#666;font-size:0.9rem;}
+
+/* SORT BAR */
+.sort-bar{
+display:flex;align-items:center;justify-content:space-between;
+margin-bottom:18px;flex-wrap:wrap;gap:10px;
+}
+.sort-bar .results-count{font-size:0.9rem;color:#888;}
+.sort-bar .results-count strong{color:#00d2ff;}
+.sort-options{display:flex;gap:8px;flex-wrap:wrap;}
+.sort-btn{
+padding:7px 16px;border-radius:50px;border:1px solid #2a2a4a;
+background:transparent;color:#888;cursor:pointer;font-size:0.8rem;
+font-weight:600;transition:0.3s;
+}
+.sort-btn:hover,.sort-btn.active{background:#7b2ff7;color:#fff;border-color:#7b2ff7;}
+
+/* FOOTER */
 footer{
-margin-top:40px;
-opacity:0.7;
-font-size:0.9rem;
+background:#0d0d1a;border-top:1px solid #1a1a2e;
+padding:30px 20px;text-align:center;margin-top:40px;
+}
+footer p{color:#444;font-size:0.85rem;}
+footer .links{margin-top:10px;}
+footer .links a{color:#666;margin:0 10px;text-decoration:none;font-size:0.8rem;}
+
+/* SCROLL TOP */
+.scroll-top{
+position:fixed;bottom:25px;right:25px;width:45px;height:45px;
+border-radius:50%;background:linear-gradient(135deg,#7b2ff7,#00d2ff);
+border:none;color:#fff;font-size:1.2rem;cursor:pointer;
+display:none;z-index:99;transition:0.3s;
+box-shadow:0 5px 20px rgba(123,47,247,0.4);
+}
+.scroll-top:hover{transform:scale(1.1);}
+.scroll-top.show{display:block;}
+
+/* NOTIFICATION */
+.notification{
+position:fixed;top:80px;right:20px;padding:15px 25px;
+border-radius:12px;background:#16162e;border:1px solid #7b2ff7;
+z-index:200;transform:translateX(120%);transition:0.4s;
+box-shadow:0 10px 30px rgba(0,0,0,0.5);max-width:300px;
+}
+.notification.show{transform:translateX(0);}
+.notification .ntf-title{font-weight:700;font-size:0.9rem;margin-bottom:3px;}
+.notification .ntf-msg{font-size:0.8rem;color:#aaa;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+.logo{font-size:1.4rem;}
+.search-bar{max-width:100%;order:3;width:100%;}
+.hero h2{font-size:1.4rem;}
+.hero{padding:25px 20px;}
+.products-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;}
+.product-img{height:150px;}
+.hero-stats{gap:15px;}
+.hero-stat .num{font-size:1.2rem;}
+.platforms-row{gap:6px;}
+.plat-badge{padding:6px 12px;font-size:0.7rem;}
 }
 </style>
 </head>
-
 <body>
 
-<div class="container">
-
-<h1>💰 Compara+</h1>
-<p>Compare preços nas maiores plataformas</p>
-
-<div class="search-box">
-<input type="text" id="product" placeholder="Digite o produto... Ex: Fone Bluetooth">
-
-<button onclick="searchProduct()">🔍 Pesquisar</button>
-
-<div class="results" id="results">
-<h3>Buscar em:</h3>
-
-<div class="platform">
-<span>🟡 Mercado Livre</span>
-<a id="mlLink" target="_blank" class="ml">Ver Ofertas</a>
-</div>
-
-<div class="platform">
-<span>🟠 Shopee</span>
-<a id="shopeeLink" target="_blank" class="shopee">Ver Ofertas</a>
-</div>
-
-<div class="platform">
-<span>🔵 Magalu</span>
-<a id="magaluLink" target="_blank" class="magalu">Ver Ofertas</a>
-</div>
-
+<header>
+<div class="header-inner">
+<div class="logo">💰 <span>Compara+</span></div>
+<div class="search-bar">
+<input type="text" id="searchInput" placeholder="Busque qualquer produto..." onkeydown="if(event.key==='Enter')doSearch()">
+<button class="btn-search" onclick="doSearch()">🔍 Buscar</button>
 </div>
 </div>
+</header>
+
+<nav>
+<div class="nav-inner">
+<button class="nav-tab active" onclick="switchTab(this,'home')">🏠 Início</button>
+<button class="nav-tab" onclick="switchTab(this,'ofertas')">🔥 Ofertas</button>
+<button class="nav-tab" onclick="switchTab(this,'mais-buscados')">📈 Mais Buscados</button>
+<button class="nav-tab" onclick="switchTab(this,'cupons')">🎟️ Cupons</button>
+<button class="nav-tab" onclick="switchTab(this,'mais-vendidos')">🏆 Mais Vendidos</button>
+</div>
+</nav>
+
+<main id="mainContent"></main>
 
 <footer>
-Compara+ © 2026
+<p>💰 <strong>Compara+</strong> — Compare preços nas maiores lojas do Brasil</p>
+<div class="links">
+<a href="#">Sobre</a>
+<a href="#">Contato</a>
+<a href="#">Termos</a>
+</div>
+<p style="margin-top:10px;">© 2025 Compara+. Todos os direitos reservados.</p>
 </footer>
 
+<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<div class="notification" id="notification">
+<div class="ntf-title" id="ntfTitle"></div>
+<div class="ntf-msg" id="ntfMsg"></div>
 </div>
 
 <script>
-function searchProduct(){
-let product = document.getElementById("product").value.trim();
+// ===== CONFIG =====
+var AFFILIATE_ID = "df20251014105211";
+var ML_API = "https://api.mercadolibre.com/sites/MLB/search";
+var currentTab = "home";
 
-if(product === ""){
-alert("Digite um produto!");
-return;
+// ===== UTILS =====
+function formatPrice(v){
+if(!v && v!==0) return "R$ 0,00";
+return "R$ "+v.toFixed(2).replace(".",",").replace(/\B(?=(\d{3})+(?!\d))/g,".");
 }
 
-let query = product.replace(/ /g,"-");
-
-// ID fixo Mercado Livre
-let mlLink = "https://lista.mercadolivre.com.br/" + query + "?affiliateId=df20251014105211";
-
-let shopeeLink = "https://shopee.com.br/search?keyword=" + encodeURIComponent(product);
-
-let magaluLink = "https://www.magazineluiza.com.br/busca/" + query + "/";
-
-document.getElementById("mlLink").href = mlLink;
-document.getElementById("shopeeLink").href = shopeeLink;
-document.getElementById("magaluLink").href = magaluLink;
-
-document.getElementById("results").style.display = "block";
+function makeLink(permalink){
+if(!permalink) return "#";
+var sep = permalink.indexOf("?") !== -1 ? "&" : "?";
+return permalink + sep + "affiliateId=" + AFFILIATE_ID;
 }
+
+function makeSearchLinkML(query){
+return "https://lista.mercadolivre.com.br/" + encodeURIComponent(query).replace(/%20/g,"-") + "?affiliateId=" + AFFILIATE_ID;
+}
+function makeSearchLinkShopee(query){
+return "https://shopee.com.br/search?keyword=" + encodeURIComponent(query);
+}
+function makeSearchLinkMagalu(query){
+return "https://www.magazineluiza.com.br/busca/" + encodeURIComponent(query).replace(/%20/g,"+") + "/";
+}
+function makeSearchLinkAmazon(query){
+return "https://www.amazon.com.br/s?k=" + encodeURIComponent(query);
+}
+function makeSearchLinkAmericanas(query){
+return "https://www.americanas.com.br/busca/" + encodeURIComponent(query);
+}
+
+function notify(title,msg){
+document.getElementById("ntfTitle").textContent=title;
+document.getElementById("ntfMsg").textContent=msg;
+var el=document.getElementById("notification");
+el.classList.add("show");
+setTimeout(function(){el.classList.remove("show");},3500);
+}
+
+window.addEventListener("scroll",function(){
+document.getElementById("scrollTopBtn").classList.toggle("show",window.scrollY>400);
+});
+
+// ===== API FETCH - MULTIPLE METHODS =====
+function fetchML(query, sort, limit){
+return new Promise(function(resolve){
+var url = ML_API + "?q=" + encodeURIComponent(query) + "&limit=" + (limit||12);
+if(sort) url += "&sort=" + sort;
+
+// Método 1: fetch direto (funciona na Vercel e domínios hospedados)
+fetch(url)
+.then(function(r){ return r.json(); })
+.then(function(data){
+if(data && data.results && data.results.length > 0){
+resolve(data.results);
+} else {
+resolve([]);
+}
+})
+.catch(function(){
+// Método 2: proxy allorigins (funciona local e em qualquer lugar)
+var proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(url);
+fetch(proxyUrl)
+.then(function(r){ return r.json(); })
+.then(function(data){
+if(data && data.results && data.results.length > 0){
+resolve(data.results);
+} else {
+resolve([]);
+}
+})
+.catch(function(){
+// Método 3: proxy corsproxy.io
+var proxyUrl2 = "https://corsproxy.io/?" + encodeURIComponent(url);
+fetch(proxyUrl2)
+.then(function(r){ return r.json(); })
+.then(function(data){
+if(data && data.results && data.results.length > 0){
+resolve(data.results);
+} else {
+resolve([]);
+}
+})
+.catch(function(){
+resolve([]);
+});
+});
+});
+});
+}
+
+// ===== RENDER CARD =====
+function renderCard(item, tag, query){
+var img = (item.thumbnail||"").replace("-I.jpg","-O.jpg").replace("http://","https://");
+var price = item.price||0;
+var origPrice = item.original_price||0;
+var title = item.title||"Produto";
+var link = makeLink(item.permalink);
+var inst = item.installments;
+var instText = "";
+if(inst && inst.quantity && inst.amount){
+instText = inst.quantity+"x de "+formatPrice(inst.amount);
+if(inst.rate===0) instText+=" sem juros";
+}
+var discount="";
+if(origPrice>price && origPrice>0){
+var pct=Math.round((1-price/origPrice)*100);
+discount=pct+"% OFF";
+}
+
+var tagHTML="";
+if(tag==="hot") tagHTML='<div class="tag tag-hot">🔥 HOT</div>';
+else if(tag==="best") tagHTML='<div class="tag tag-best">⭐ MELHOR</div>';
+else if(discount) tagHTML='<div class="tag tag-off">'+discount+'</div>';
+
+var searchQ = query || title.split(" ").slice(0,3).join(" ");
+
+var multiLinks = '<div class="multi-links">';
+multiLinks += '<a href="'+link+'" target="_blank" rel="noopener" class="ml-link ml-link-ml">Mercado Livre</a>';
+multiLinks += '<a href="'+makeSearchLinkShopee(searchQ)+'" target="_blank" rel="noopener" class="ml-link ml-link-shopee">Shopee</a>';
+multiLinks += '<a href="'+makeSearchLinkMagalu(searchQ)+'" target="_blank" rel="noopener" class="ml-link ml-link-magalu">Magalu</a>';
+multiLinks += '<a href="'+makeSearchLinkAmazon(searchQ)+'" target="_blank" rel="noopener" class="ml-link ml-link-amazon">Amazon</a>';
+multiLinks += '<a href="'+makeSearchLinkAmericanas(searchQ)+'" target="_blank" rel="noopener" class="ml-link ml-link-americanas">Americanas</a>';
+multiLinks += '</div>';
+
+var fallbackImg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%231a1a35' width='100' height='100'/%3E%3Ctext y='50%25' x='50%25' text-anchor='middle' dominant-baseline='middle' font-size='35'%3E📦%3C/text%3E%3C/svg%3E";
+
+return '<div class="product-card" data-price="'+price+'">' +
+tagHTML +
+'<div class="platform-badge badge-ml">Mercado Livre</div>' +
+'<div class="product-img"><img src="'+img+'" alt="'+title.substring(0,40)+'" onerror="this.src=\''+fallbackImg+'\'"></div>' +
+'<div class="product-info">' +
+'<h3>'+title+'</h3>' +
+'<div class="price-row">' +
+'<span class="price-current">'+formatPrice(price)+'</span>' +
+(origPrice>price?'<span class="price-old">'+formatPrice(origPrice)+'</span>':'') +
+'</div>' +
+(instText?'<div class="price-installment">'+instText+'</div>':'<div class="price-installment">&nbsp;</div>') +
+multiLinks +
+'<a href="'+link+'" target="_blank" rel="noopener" class="btn-offer">Ver Oferta →</a>' +
+'</div></div>';
+}
+
+function showLoading(){
+return '<div class="loading"><div class="spinner"></div><p style="color:#888">Buscando melhores preços nas lojas...</p></div>';
+}
+
+function renderEmpty(msg){
+return '<div class="empty-state"><div class="icon">🔍</div><h3>'+msg+'</h3><p>Tente buscar por outro termo</p></div>';
+}
+
+// ===== HERO =====
+function renderHero(){
+return '<div class="hero">'+
+'<h2>As melhores ofertas em <span>um só lugar</span></h2>'+
+'<p>Compare preços no Mercado Livre, Shopee, Magalu, Amazon e Americanas</p>'+
+'<div class="hero-stats">'+
+'<div class="hero-stat"><div class="num">5+</div><div class="lbl">Plataformas</div></div>'+
+'<div class="hero-stat"><div class="num">🔒</div><div class="lbl">Seguro</div></div>'+
+'<div class="hero-stat"><div class="num">⚡</div><div class="lbl">Tempo Real</div></div>'+
+'</div>'+
+'<div class="platforms-row">'+
+'<div class="plat-badge plat-ml">🟡 Mercado Livre</div>'+
+'<div class="plat-badge plat-shopee">🟠 Shopee</div>'+
+'<div class="plat-badge plat-magalu">🔵 Magalu</div>'+
+'<div class="plat-badge plat-amazon">📦 Amazon</div>'+
+'<div class="plat-badge plat-americanas">🔴 Americanas</div>'+
+'</div>'+
+'</div>';
+}
+
+// ===== CUPONS =====
+function renderCupon(cls,discount,desc,code){
+return '<div class="cupon '+cls+'" onclick="copyCupon(\''+code+'\')">'+
+'<div class="discount">'+discount+'</div>'+
+'<div class="desc">'+desc+'</div>'+
+'<div class="code">📋 '+code+'</div></div>';
+}
+
+function copyCupon(code){
+if(navigator.clipboard){
+navigator.clipboard.writeText(code).then(function(){notify("✅ Cupom copiado!",code+" copiado para a área de transferência");});
+}else{
+notify("📋 Cupom","Use o código: "+code);
+}
+}
+
+function renderCuponsSection(){
+return '<div class="cupons-section">'+
+'<div class="section-header"><h2>🎟️ Cupons de Desconto</h2></div>'+
+'<div class="cupons-grid">'+
+renderCupon("c1","10% OFF","Eletrônicos e acessórios","ELETRO10")+
+renderCupon("c2","R$50 OFF","Compras acima de R$300","COMPRA50")+
+renderCupon("c3","Frete Grátis","Em milhares de produtos","FRETEON")+
+renderCupon("c4","15% OFF","Moda e vestuário","MODA15")+
+renderCupon("c5","20% OFF","Primeira compra","BEMVINDO20")+
+'</div></div>';
+}
+
+// ===== CATEGORIES =====
+function renderCategoriesHTML(){
+var cats=[
+{icon:"📱",name:"Celulares",q:"celular"},
+{icon:"💻",name:"Notebooks",q:"notebook"},
+{icon:"🎧",name:"Fones",q:"fone bluetooth"},
+{icon:"📺",name:"TVs",q:"smart tv"},
+{icon:"🎮",name:"Games",q:"playstation"},
+{icon:"👟",name:"Calçados",q:"tenis nike"},
+{icon:"🏠",name:"Casa",q:"air fryer"},
+{icon:"⌚",name:"Relógios",q:"smartwatch"},
+{icon:"📷",name:"Câmeras",q:"camera digital"},
+{icon:"🔌",name:"Acessórios",q:"carregador"}
+];
+var html='<div class="categories">';
+for(var i=0;i<cats.length;i++){
+html+='<div class="cat-item" onclick="searchCategory(\''+cats[i].q+'\')">'+
+'<div class="cat-icon">'+cats[i].icon+'</div>'+
+'<div class="cat-name">'+cats[i].name+'</div></div>';
+}
+html+='</div>';
+return html;
+}
+
+function searchCategory(query){
+document.getElementById("searchInput").value=query;
+doSearch();
+}
+
+// ===== SORT BAR =====
+function renderSortBar(count){
+return '<div class="sort-bar">'+
+'<div class="results-count"><strong>'+count+'</strong> produtos encontrados — do mais barato ao mais caro</div>'+
+'<div class="sort-options">'+
+'<button class="sort-btn active" onclick="sortProducts(\'asc\',this)">💰 Menor Preço</button>'+
+'<button class="sort-btn" onclick="sortProducts(\'desc\',this)">💎 Maior Preço</button>'+
+'</div></div>';
+}
+
+function sortProducts(order,btn){
+var grid=document.getElementById("prodGrid");
+if(!grid) return;
+var btns=document.querySelectorAll(".sort-btn");
+for(var i=0;i<btns.length;i++) btns[i].classList.remove("active");
+btn.classList.add("active");
+
+var cards=[];
+for(var j=0;j<grid.children.length;j++) cards.push(grid.children[j]);
+
+cards.sort(function(a,b){
+var pa=parseFloat(a.getAttribute("data-price"))||0;
+var pb=parseFloat(b.getAttribute("data-price"))||0;
+return order==="asc"?pa-pb:pb-pa;
+});
+for(var k=0;k<cards.length;k++) grid.appendChild(cards[k]);
+}
+
+// ===== RENDER PRODUCTS LIST =====
+function renderProductList(items, tag, query){
+var html='<div class="products-grid">';
+for(var i=0;i<items.length;i++){
+var t = "";
+if(i===0 && tag) t = tag;
+html += renderCard(items[i], t, query);
+}
+html+='</div>';
+return html;
+}
+
+// ===== RENDER HOME =====
+function renderHome(){
+var main=document.getElementById("mainContent");
+main.innerHTML=renderHero()+renderCuponsSection()+renderCategoriesHTML()+
+'<div class="section-header"><h2>🔥 Ofertas do Dia <span class="badge">IMPERDÍVEL</span></h2></div>'+
+'<div id="homeOfertas">'+showLoading()+'</div>'+
+'<div class="section-header" style="margin-top:35px"><h2>🏆 Mais Vendidos</h2></div>'+
+'<div id="homeMaisVendidos">'+showLoading()+'</div>'+
+'<div class="section-header" style="margin-top:35px"><h2>📈 Mais Buscados</h2></div>'+
+'<div id="homeMaisBuscados">'+showLoading()+'</div>';
+
+// Buscar produtos com termos simples que retornam resultados reais
+fetchML("celular", "price_asc", 8).then(function(ofertas){
+ofertas.sort(function(a,b){return a.price-b.price;});
+var el1=document.getElementById("homeOfertas");
+if(el1){
+if(ofertas.length){
+el1.innerHTML=renderProductList(ofertas, "best", "celular");
+}else{
+el1.innerHTML=renderEmpty("Nenhuma oferta encontrada");
+}
+}
+});
+
+fetchML("notebook", "relevance", 8).then(function(vendidos){
+vendidos.sort(function(a,b){return a.price-b.price;});
+var el2=document.getElementById("homeMaisVendidos");
+if(el2){
+if(vendidos.length){
+el2.innerHTML=renderProductList(vendidos, "hot", "notebook");
+}else{
+el2.innerHTML=renderEmpty("Nenhum produto encontrado");
+}
+}
+});
+
+fetchML("fone bluetooth", "relevance", 8).then(function(buscados){
+buscados.sort(function(a,b){return a.price-b.price;});
+var el3=document.getElementById("homeMaisBuscados");
+if(el3){
+if(buscados.length){
+el3.innerHTML=renderProductList(buscados, "", "fone bluetooth");
+}else{
+el3.innerHTML=renderEmpty("Nenhum produto encontrado");
+}
+}
+});
+}
+
+// ===== RENDER OFERTAS =====
+function renderOfertas(){
+var main=document.getElementById("mainContent");
+main.innerHTML='<div class="section-header"><h2>🔥 Ofertas Imperdíveis <span class="badge">AO VIVO</span></h2></div>'+showLoading();
+fetchML("promoção","price_asc",20).then(function(items){
+items.sort(function(a,b){return a.price-b.price;});
+if(items.length){
+var h=renderSortBar(items.length)+'<div class="products-grid" id="prodGrid">';
+for(var i=0;i<items.length;i++) h+=renderCard(items[i],i===0?"best":"","promoção");
+h+='</div>';
+main.innerHTML='<div class="section-header"><h2>🔥 Ofertas — Menor preço primeiro</h2></div>'+h;
+}else main.innerHTML=renderEmpty("Nenhuma oferta encontrada");
+});
+}
+
+// ===== RENDER MAIS BUSCADOS =====
+function renderMaisBuscados(){
+var main=document.getElementById("mainContent");
+main.innerHTML='<div class="section-header"><h2>📈 Mais Buscados</h2></div>'+showLoading();
+fetchML("smartphone","relevance",20).then(function(items){
+items.sort(function(a,b){return a.price-b.price;});
+if(items.length){
+var h=renderSortBar(items.length)+'<div class="products-grid" id="prodGrid">';
+for(var i=0;i<items.length;i++) h+=renderCard(items[i],"","smartphone");
+h+='</div>';
+main.innerHTML='<div class="section-header"><h2>📈 Mais Buscados — Menor preço primeiro</h2></div>'+h;
+}else main.innerHTML=renderEmpty("Nenhum produto encontrado");
+});
+}
+
+// ===== RENDER CUPONS TAB =====
+function renderCuponsTab(){
+var main=document.getElementById("mainContent");
+main.innerHTML='<div class="section-header"><h2>🎟️ Todos os Cupons de Desconto</h2></div>'+
+'<div class="cupons-grid" style="flex-wrap:wrap">'+
+renderCupon("c1","10% OFF","Eletrônicos e acessórios","ELETRO10")+
+renderCupon("c2","R$50 OFF","Compras acima de R$300","COMPRA50")+
+renderCupon("c3","Frete Grátis","Em milhares de produtos","FRETEON")+
+renderCupon("c4","15% OFF","Moda e vestuário","MODA15")+
+renderCupon("c5","20% OFF","Primeira compra","BEMVINDO20")+
+renderCupon("c1","5% OFF","Tudo no site","COMPARA5")+
+renderCupon("c3","R$30 OFF","Compras acima de R$200","EXTRA30")+
+renderCupon("c2","25% OFF","Esportes e lazer","SPORT25")+
+'</div>'+
+'<p style="text-align:center;margin-top:20px;color:#666;font-size:0.85rem">Clique no cupom para copiar o código</p>';
+}
+
+// ===== RENDER MAIS VENDIDOS =====
+function renderMaisVendidos(){
+var main=document.getElementById("mainContent");
+main.innerHTML='<div class="section-header"><h2>🏆 Mais Vendidos</h2></div>'+showLoading();
+fetchML("smart tv","relevance",20).then(function(items){
+items.sort(function(a,b){return a.price-b.price;});
+if(items.length){
+var h=renderSortBar(items.length)+'<div class="products-grid" id="prodGrid">';
+for(var i=0;i<items.length;i++) h+=renderCard(items[i],i===0?"hot":"","smart tv");
+h+='</div>';
+main.innerHTML='<div class="section-header"><h2>🏆 Mais Vendidos — Menor preço primeiro</h2></div>'+h;
+}else main.innerHTML=renderEmpty("Nenhum produto encontrado");
+});
+}
+
+// ===== SEARCH =====
+function doSearch(){
+var query=document.getElementById("searchInput").value.trim();
+if(!query){notify("⚠️ Atenção","Digite o nome de um produto");return;}
+
+var tabs=document.querySelectorAll(".nav-tab");
+for(var i=0;i<tabs.length;i++) tabs[i].classList.remove("active");
+currentTab="search";
+
+var main=document.getElementById("mainContent");
+main.innerHTML=showLoading();
+window.scrollTo({top:0,behavior:"smooth"});
+
+fetchML(query,"price_asc",20).then(function(items){
+items.sort(function(a,b){return a.price-b.price;});
+if(items.length){
+var cheapest=items[0];
+
+var platformLinksHTML='<div style="margin-bottom:20px;padding:20px;background:#16162e;border-radius:15px;border:1px solid #1e1e3e;">'+
+'<p style="margin-bottom:12px;font-weight:700;font-size:1rem;">🔎 Buscar "'+query+'" também em:</p>'+
+'<div style="display:flex;gap:10px;flex-wrap:wrap;">'+
+'<a href="'+makeSearchLinkML(query)+'" target="_blank" rel="noopener" class="ml-link ml-link-ml" style="padding:10px 18px;font-size:0.85rem;">🟡 Mercado Livre</a>'+
+'<a href="'+makeSearchLinkShopee(query)+'" target="_blank" rel="noopener" class="ml-link ml-link-shopee" style="padding:10px 18px;font-size:0.85rem;">🟠 Shopee</a>'+
+'<a href="'+makeSearchLinkMagalu(query)+'" target="_blank" rel="noopener" class="ml-link ml-link-magalu" style="padding:10px 18px;font-size:0.85rem;">🔵 Magalu</a>'+
+'<a href="'+makeSearchLinkAmazon(query)+'" target="_blank" rel="noopener" class="ml-link ml-link-amazon" style="padding:10px 18px;font-size:0.85rem;">📦 Amazon</a>'+
+'<a href="'+makeSearchLinkAmericanas(query)+'" target="_blank" rel="noopener" class="ml-link ml-link-americanas" style="padding:10px 18px;font-size:0.85rem;">🔴 Americanas</a>'+
+'</div></div>';
+
+var h='<div class="section-header"><h2>🔍 Resultados: "'+query+'"</h2></div>'+
+platformLinksHTML+
+renderSortBar(items.length)+
+'<div class="products-grid" id="prodGrid">';
+for(var i=0;i<items.length;i++) h+=renderCard(items[i],i===0?"best":"",query);
+h+='</div>';
+main.innerHTML=h;
+notify("✅ "+items.length+" produtos","Menor preço: "+formatPrice(cheapest.price));
+}else{
+main.innerHTML=renderEmpty('Nenhum resultado para "'+query+'"');
+}
+});
+}
+
+// ===== SWITCH TAB =====
+function switchTab(el,tab){
+var tabs=document.querySelectorAll(".nav-tab");
+for(var i=0;i<tabs.length;i++) tabs[i].classList.remove("active");
+el.classList.add("active");
+currentTab=tab;
+window.scrollTo({top:0,behavior:"smooth"});
+
+if(tab==="home") renderHome();
+else if(tab==="ofertas") renderOfertas();
+else if(tab==="mais-buscados") renderMaisBuscados();
+else if(tab==="cupons") renderCuponsTab();
+else if(tab==="mais-vendidos") renderMaisVendidos();
+}
+
+// ===== INIT =====
+renderHome();
 </script>
-
 </body>
 </html>
-
 
 
 
